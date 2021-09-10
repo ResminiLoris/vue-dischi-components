@@ -1,28 +1,59 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Header :genreList="genreList"/>
+    <Main :albums="albums"/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import axios from "axios";
+import Header from './components/Header.vue'
+import Main from './components/Main.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Header,
+    Main,
+  },
+  data(){
+    return{
+      albums: [],
+    }
+  },
+  computed:{
+    genreList(){
+      const genreList = [];
+      this.albums.forEach(album => {
+        if(!genreList.includes(album.genre))
+        genreList.push(album.genre);
+      });
+      return genreList;
+    },
+    
+  },
+  //recupero dati API
+  created(){
+    axios.get("https://flynn.boolean.careers/exercises/api/array/music").then((res)=>{
+     console.log("LOG RES.DATA:",res.data.response)
+     this.albums=(res.data.response);
+    })
   }
 }
+
 </script>
 
 <style lang="scss">
+body{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #1E2D3B;
+}
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  .container {
+  max-width: 1500px;
+  margin: 0 auto;
+  } 
 }
 </style>
