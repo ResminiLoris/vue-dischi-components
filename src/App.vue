@@ -23,6 +23,7 @@ export default {
     }
   },
   computed:{
+    //recupero generi musicali 
     genreList(){
       const genreList = [];
       this.albums.forEach(album => {
@@ -31,12 +32,14 @@ export default {
       });
       return genreList;
     },
+    //ordino gli album per data
     orderedAlbums(){
       let orderedAlbums = this.albums.slice();
       return orderedAlbums.sort((a, b)=>{
         return a.year - b.year;
       });
     },
+    //filtro album in base a genere selezionato
     filteredAlbums(){
       const albums = this.orderedAlbums;
       if(this.selectedGenre === 'All') return albums;
@@ -48,6 +51,7 @@ export default {
     
   },
   methods:{
+    //intercetto cambio genere (header)
     genreChange(selectedGenre){
       this.selectedGenre = selectedGenre;
     }
