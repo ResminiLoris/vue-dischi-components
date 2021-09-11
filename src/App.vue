@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <Header :genreList="genreList"/>
-    <Main :albums="albums"/>
+    <Header :genreList="genreList" @genreChange="genreChange"/>
+    <Main :albums="filteredAlbums"/>
   </div>
 </template>
 
@@ -19,6 +19,7 @@ export default {
   data(){
     return{
       albums: [],
+      selectedGenre:"All",
     }
   },
   computed:{
@@ -30,7 +31,26 @@ export default {
       });
       return genreList;
     },
+    orderedAlbums(){
+      let orderedAlbums = this.albums.slice();
+      return orderedAlbums.sort((a, b)=>{
+        return a.year - b.year;
+      });
+    },
+    filteredAlbums(){
+      const albums = this.orderedAlbums;
+      if(this.selectedGenre === 'All') return albums;
+      return albums.filter((album)=>{
+        return album.genre === this.selectedGenre;
+      })
+    },
     
+    
+  },
+  methods:{
+    genreChange(selectedGenre){
+      this.selectedGenre = selectedGenre;
+    }
   },
   //recupero dati API
   created(){

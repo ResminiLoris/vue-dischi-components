@@ -2,7 +2,7 @@
   <div class="header">
         <div class="container">
           <img src="../assets/img/logo.png" />
-          <select v-model="selectedGenre">
+          <select v-model="selectedGenre" @change="$emit('genreChange', selectedGenre)">
             <option>All</option>
             <option v-for="(genre,index) in genreList" :key="index">{{genre}}</option>
           </select>
@@ -15,7 +15,7 @@ export default {
     name:'Header',
     data(){
         return{
-            selectedGenre: 'all',
+            selectedGenre: 'All',
         }
     },
     props:['genreList'],
